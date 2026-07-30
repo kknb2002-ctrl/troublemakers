@@ -641,10 +641,6 @@ main.wrap {
   padding: 28px;
 }
 
-.giscus, .giscus-frame {
-  width: 100%;
-}
-
 /* ===== Responsive ===== */
 @media (max-width: 560px) {
   .card { padding: 20px; }

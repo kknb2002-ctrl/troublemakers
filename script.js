@@ -41,14 +41,6 @@
     themeToggle.setAttribute("aria-label", isDark ? "화이트 모드로 전환" : "다크 모드로 전환");
     themeToggle.querySelector(".theme-toggle-icon").textContent = isDark ? "☀" : "☾";
     themeToggle.querySelector(".theme-toggle-label").textContent = isDark ? "화이트 모드" : "다크 모드";
-
-    const giscusFrame = document.querySelector("iframe.giscus-frame");
-    if (giscusFrame) {
-      giscusFrame.contentWindow.postMessage(
-        { giscus: { setConfig: { theme: isDark ? "dark" : "light" } } },
-        "https://giscus.app"
-      );
-    }
   }
 
   // ---------- Upload handling ----------
