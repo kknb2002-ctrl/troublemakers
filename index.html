@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI 피부 분석 &amp; 케어 상담</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="wrap">
+      <div class="header-actions">
+        <button class="theme-toggle" id="themeToggle" type="button" aria-label="다크 모드로 전환" aria-pressed="false">
+          <span class="theme-toggle-icon" aria-hidden="true">☾</span>
+          <span class="theme-toggle-label">다크 모드</span>
+        </button>
+      </div>
+      <div class="brand">
+        <span class="brand-icon">✦</span>
+        <span class="brand-name">trouble<em>makers</em></span>
+      </div>
+      <p class="tagline">사진 한 장으로 받아보는 간단 피부 상태 참고 리포트</p>
+    </div>
+  </header>
+
+  <main class="wrap">
+
+    <!-- Upload Section -->
+    <section class="card upload-card" id="uploadSection">
+      <span class="section-eyebrow">STEP 01</span>
+      <h2>피부 사진 업로드</h2>
+      <p class="section-desc">조명이 밝고 얼굴이 선명하게 나온 정면 사진을 사용하면 더 안정적인 결과를 얻을 수 있어요.</p>
+
+      <div class="dropzone" id="dropzone">
+        <input type="file" id="fileInput" accept="image/*" hidden>
+        <div class="dropzone-inner" id="dropzoneInner">
+          <span class="dropzone-icon">📷</span>
+          <p><strong>클릭하여 업로드</strong> 또는 이미지를 이곳에 드래그하세요</p>
+          <span class="dropzone-hint">JPG · PNG (브라우저 안에서만 처리되며 서버로 전송되지 않습니다)</span>
+        </div>
+        <div class="preview-wrap" id="previewWrap" hidden>
+          <img id="previewImg" alt="업로드한 피부 사진 미리보기">
+        </div>
+      </div>
+
+      <div class="upload-actions">
+        <button class="btn btn-primary" id="analyzeBtn" disabled>피부 분석 시작</button>
+        <button class="btn btn-ghost" id="resetBtn" hidden>다른 사진으로 다시하기</button>
+      </div>
+
+      <div class="loading" id="loading" hidden>
+        <div class="spinner"></div>
+        <span>이미지 데이터를 분석하는 중...</span>
+      </div>
+    </section>
+
+    <!-- Results Section -->
+    <section class="results" id="results" hidden>
+
+      <section class="card skin-age-card">
+        <span class="section-eyebrow">AI 추정 피부 나이</span>
+        <div class="skin-age-hero">
+          <span class="skin-age-hero-value" id="skinAgeValue">--</span>
+          <span class="skin-age-hero-unit">세</span>
+        </div>
+        <p class="skin-age-hero-caption">사진의 밝기·결·유분 신호를 바탕으로 추정한 참고값이에요. 실제 나이·의학적 진단이 아니에요.</p>
+      </section>
+
+      <section class="card">
+        <span class="section-eyebrow">STEP 02</span>
+        <h2>분석 리포트</h2>
+        <p class="section-desc">사진 픽셀 분석 기반 참고 지표예요. 조명·각도에 따라 달라질 수 있어요.</p>
+        <div class="metrics-grid" id="metricsGrid"></div>
+      </section>
+
+      <section class="card">
+        <span class="section-eyebrow">STEP 03</span>
+        <h2>맞춤 케어 루틴</h2>
+        <p class="section-desc" id="skinTypeLabel"></p>
+        <div class="skin-summary" id="skinSummary" aria-live="polite"></div>
+        <div class="care-steps" id="tipsList"></div>
+      </section>
+
+    </section>
+
+    <!-- History Section -->
+    <section class="card history-card" id="historySection">
+      <div class="history-head">
+        <div>
+          <span class="section-eyebrow">HISTORY</span>
+          <h2>분석 히스토리</h2>
+          <p class="section-desc">이 브라우저에 저장된 지난 분석 기록이에요. 다른 기기와는 공유되지 않아요.</p>
+        </div>
+        <button class="btn btn-ghost btn-clear-history" id="clearHistoryBtn" hidden>전체 삭제</button>
+      </div>
+      <p class="history-empty" id="historyEmpty">아직 저장된 분석 기록이 없어요. 분석을 실행하면 여기에 자동으로 쌓여요.</p>
+      <div class="history-list" id="historyList"></div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <p class="privacy-note">업로드한 이미지는 서버로 전송되지 않고 사용자의 브라우저 안에서만 처리됩니다.</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>https://github.com/kknb2002-ctrl/troublemakers.git
+</body>
+</html>
+낵
