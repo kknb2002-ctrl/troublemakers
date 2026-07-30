@@ -629,6 +629,18 @@ main.wrap {
 
 .site-footer p { margin: 4px 0; }
 
+/* ===== Comments ===== */
+.comments-section {
+  padding: 0 0 60px;
+}
+
+.comments-section .wrap {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 28px;
+}
+
 /* ===== Responsive ===== */
 @media (max-width: 560px) {
   .card { padding: 20px; }
