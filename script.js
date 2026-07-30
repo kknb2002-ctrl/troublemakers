@@ -19,12 +19,6 @@
   const historyList = document.getElementById("historyList");
   const historyEmpty = document.getElementById("historyEmpty");
   const clearHistoryBtn = document.getElementById("clearHistoryBtn");
-  const commentForm = document.getElementById("commentForm");
-  const commentEmojiPicker = document.getElementById("commentEmojiPicker");
-  const commentName = document.getElementById("commentName");
-  const commentBody = document.getElementById("commentBody");
-  const commentList = document.getElementById("commentList");
-  const commentEmpty = document.getElementById("commentEmpty");
 
   let currentImage = null;
 
@@ -47,6 +41,14 @@
     themeToggle.setAttribute("aria-label", isDark ? "화이트 모드로 전환" : "다크 모드로 전환");
     themeToggle.querySelector(".theme-toggle-icon").textContent = isDark ? "☀" : "☾";
     themeToggle.querySelector(".theme-toggle-label").textContent = isDark ? "화이트 모드" : "다크 모드";
+
+    const giscusFrame = document.querySelector("iframe.giscus-frame");
+    if (giscusFrame) {
+      giscusFrame.contentWindow.postMessage(
+        { giscus: { setConfig: { theme: isDark ? "dark" : "light" } } },
+        "https://giscus.app"
+      );
+    }
   }
 
   // ---------- Upload handling ----------
@@ -511,113 +513,4 @@
   });
 
   renderHistory();
-
-  // ---------- Comments ----------
-
-  const COMMENT_KEY = "skinAppComments";
-  const COMMENT_EMOJIS = ["😊", "😍", "🥲", "😢", "😡", "🤔"];
-  let selectedEmoji = COMMENT_EMOJIS[0];
-
-  function escapeHtml(str) {
-    const div = document.createElement("div");
-    div.textContent = str;
-    return div.innerHTML;
-  }
-
-  function loadComments() {
-    try {
-      const raw = JSON.parse(localStorage.getItem(COMMENT_KEY));
-      return Array.isArray(raw) ? raw : [];
-    } catch {
-      return [];
-    }
-  }
-
-  function saveComments(entries) {
-    try {
-      localStorage.setItem(COMMENT_KEY, JSON.stringify(entries));
-    } catch {
-      // storage full or unavailable — silently skip persistence
-    }
-  }
-
-  function formatCommentDate(iso) {
-    const d = new Date(iso);
-    if (Number.isNaN(d.getTime())) return "";
-    return d.toLocaleString("ko-KR", {
-      month: "2-digit",
-      day: "2-digit",
-      hour: "2-digit",
-      minute: "2-digit",
-    });
-  }
-
-  function renderEmojiPicker() {
-    commentEmojiPicker.innerHTML = COMMENT_EMOJIS.map(
-      (emoji) => `
-        <button type="button" class="comment-emoji-option${emoji === selectedEmoji ? " is-selected" : ""}" data-emoji="${emoji}" aria-label="표정 선택">${emoji}</button>
-      `
-    ).join("");
-  }
-
-  commentEmojiPicker.addEventListener("click", (e) => {
-    const btn = e.target.closest(".comment-emoji-option");
-    if (!btn) return;
-    selectedEmoji = btn.dataset.emoji;
-    renderEmojiPicker();
-  });
-
-  function renderComments() {
-    const entries = loadComments();
-
-    commentEmpty.hidden = entries.length > 0;
-
-    commentList.innerHTML = entries
-      .map(
-        (c) => `
-        <div class="comment-item" data-id="${c.id}">
-          <div class="comment-avatar" aria-hidden="true">${c.emoji}</div>
-          <div class="comment-body-wrap">
-            <div class="comment-head">
-              <span class="comment-name">${escapeHtml(c.name) || "익명"}</span>
-              <span class="comment-date">${formatCommentDate(c.date)}</span>
-            </div>
-            <p class="comment-text">${escapeHtml(c.body)}</p>
-          </div>
-          <button class="comment-delete" type="button" data-id="${c.id}" aria-label="이 댓글 삭제">✕</button>
-        </div>
-      `
-      )
-      .join("");
-  }
-
-  commentForm.addEventListener("submit", (e) => {
-    e.preventDefault();
-    const body = commentBody.value.trim();
-    if (!body) return;
-
-    const entries = loadComments();
-    entries.unshift({
-      id: Date.now(),
-      date: new Date().toISOString(),
-      emoji: selectedEmoji,
-      name: commentName.value.trim(),
-      body,
-    });
-    saveComments(entries);
-
-    commentBody.value = "";
-    renderComments();
-  });
-
-  commentList.addEventListener("click", (e) => {
-    const btn = e.target.closest(".comment-delete");
-    if (!btn) return;
-    const id = Number(btn.dataset.id);
-    saveComments(loadComments().filter((entry) => entry.id !== id));
-    renderComments();
-  });
-
-  renderEmojiPicker();
-  renderComments();
 })();
