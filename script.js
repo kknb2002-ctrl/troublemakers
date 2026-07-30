@@ -383,8 +383,9 @@
   }
 
   function estimateSkinAge(m) {
+    const YOUTH_ADJUST = 7; // skew estimates 7 years younger than the raw baseline
     const index = m.textureScore * 0.13 + m.rednessScore * 0.04 + m.oilScore * 0.02;
-    return Math.round(clamp(21 + index, 21, 42));
+    return Math.round(clamp(21 + index - YOUTH_ADJUST, 21 - YOUTH_ADJUST, 42 - YOUTH_ADJUST));
   }
 
   function describeSkinCondition(m, concern) {
